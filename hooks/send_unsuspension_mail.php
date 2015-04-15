@@ -18,7 +18,7 @@ function send_unsuspension_email($var) {
         lg_info("Sent unsuspension mail to ".$var["params"]["clientsdetails"]);
 
  $command = "sendemail";
- $adminuser = "tunsleber";
+ $adminuser = "admin";
  $values["customtype"] = "product";
  $values["customsubject"] = "Service reactivated successfully";
  $values["custommessage"] = 
