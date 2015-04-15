@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="1ede0ca1-ef35-4e97-98d9-bf1729fe4b31" kpf_version="4" name="nocps-whmcs-module.kpf">
+<preference-set idref="1ede0ca1-ef35-4e97-98d9-bf1729fe4b31">
+  <boolean id="import_live">1</boolean>
+</preference-set>
+</project>

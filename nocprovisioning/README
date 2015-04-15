@@ -1,0 +1,44 @@
+README
+======
+
+This is a customized version of
+the nocprovisioning module from
+maxnet. It enables the creation
+of VMs on Citrix XenServers in
+combination with NOC-PS provisioning
+system.
+
+The following has to be done to
+use it:
+
+a) configure NOC-Details in include/citrix.php 
+   (NOC-PS-Server-IP,adminuser,adminpassword)
+
+b) configure NOC-PS API password in 
+   nocprovisioning.php
+   (Hmm, dont no where to set this in nocps)
+   (#TODO!)
+
+c) Configure your WHMCS-Server
+   
+   on your whmcs server create a directory
+   /var/www/.ssh
+   (Directory Hardcoded)
+   
+   create 2 ssh-keys in this directory called
+   1) id_citrix_vminfo
+   2) id_citrix_info
+
+   Create a file ~/www-data/.ssh/config for
+   every XenServer, for ssh to connect without
+   further options(Maybe not necessary). example:
+
+    Host myxenserver.mydomain.com 1.2.3.4
+        Port 59172
+
+d) Configure your XenServer in NOC-PS 
+
+e) Copy XenServer according to README file in
+   folder citrix_xenserver_files
+
+

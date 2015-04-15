@@ -1,0 +1,19 @@
+#!/bin/bash
+
+VM_NAME=$1
+ VCORES=$2
+
+
+if [ "$#" -lt 2 ]; then
+        echo "Usage: $(basename $0) <vm-name> <core-count>"
+        exit 1
+fi
+
+VM_UUID=$(xe vm-list name-label=$VM_NAME| grep uuid | awk '{print $NF}')
+
+if [ -n "$VM_UUID" ]; then
+        xe vm-param-set uuid=$VM_UUID VCPUs-max=$VCORES VCPUs-at-startup=$VCORES
+else
+        echo "Failed to set vcores"
+fi
+

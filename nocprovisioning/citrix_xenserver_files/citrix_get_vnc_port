@@ -1,0 +1,17 @@
+#!/bin/bash
+
+VMNAME="$1"
+
+if [ -z "$VMNAME" ]; then
+        echo
+        echo "Usage: $(basename $0) <VM-NAME>"
+        echo
+        echo "Get VNC-Listener-Port for VM"
+        echo
+        exit 1
+fi
+
+DOMID=$(xe vm-list params=dom-id,resident-on name-label="$VMNAME" | grep dom-id | awk '{print $NF}')
+VNC_PORT=$(xenstore-read /local/domain/$DOMID/console/vnc-port)
+
+echo vnc_port $VNC_PORT

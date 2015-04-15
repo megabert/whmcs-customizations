@@ -1,0 +1,13 @@
+citrix Xenserver files
+----------------------
+
+These steps must be done one every new xenserver
+
+* The scripts must be copied to /usr/local/bin
+* The package sudo must be installed on the xenserver
+* lines of sudoers must be added to /etc/sudoers
+* a user named citrix_info must be created
+* the file authorized_keys must be copied to ~citrix_info/.ssh 
+  chown citrix_info -R ~citrix_info
+  chmod go-rwx -R ~citrix_info/.ssh
+  

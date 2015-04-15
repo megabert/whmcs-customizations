@@ -1,0 +1,4 @@
+citrix_info     ALL=(ALL) NOPASSWD: /usr/local/bin/citrix_get_ram_diskspace
+citrix_info     ALL=(ALL) NOPASSWD: /usr/local/bin/citrix_get_vnc_port
+citrix_info     ALL=(ALL) NOPASSWD: /usr/local/bin/citrix_set_vcores
+

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+used_memory=0
+  host_uuid=$(xe host-list | grep uuid | awk '{print $NF}')
+total_memory=$(xe host-param-get uuid=$host_uuid param-name=memory-total)
+
+for UUID in $( xe vm-list params=uuid | grep -vE '^([[:space:]]+)$' | awk '{print $NF}' );do
+        max_memory_val=0
+        for param in memory-actual memory-static-max memory-dynamic-max ; do
+                value=$(xe vm-param-get uuid=$UUID param-name=$param)
+                [ $value -gt $max_memory_val ] && max_memory_val=$value 
+        done
+        #echo "memory for uuid=$UUID $max_memory_val"
+        memory_overhead=$(xe vm-param-get uuid=$UUID param-name=memory-overhead)
+        ((max_memory_val=$max_memory_val+$memory_overhead))
+        ((used_memory=$used_memory+$max_memory_val))
+done
+slack_space=$((300*1024*1024))
+((free_memory=$total_memory-$used_memory-$slack_space))
+[ "$free_memory" -lt 0 ] && free_memory=0
+
+echo free_memory $(($free_memory/(1024*1024)))
+
+
+for UUID in $( xe sr-list params=uuid | grep -vE '^([[:space:]]+)$' | awk '{print $NF}' ); do
+        if xe sr-param-get uuid=$UUID param-name=other-config | grep -q "DATASTORE: WHMCS" ;then
+                # echo "DATASTORE FOUND: $UUID"
+                 used=$(xe sr-param-get uuid=$UUID param-name=physical-utilisation)
+                total=$(xe sr-param-get uuid=$UUID param-name=physical-size)
+                 ((free=$total-$used)) 
+        fi
+done
+
+echo free_disk_space $(($free/(1024*1024)))
+
+# CORES=$(cat /proc/cpuinfo | grep processor| tail -n1| awk '{print $NF}')
+CORES=$( xe host-cpu-info | grep cpu_count | awk '{print $NF}')
+echo "total_cores $CORES"
