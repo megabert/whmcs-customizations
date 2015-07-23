@@ -10,12 +10,12 @@ $LOG = ARRAY (
 	);
 
 $loglevel = $LOG["INFO"];
-$my_logfile  = "/var/www/goweb.de/log/nocps.log";
+$my_logfile  = "/tmp/nocps.log";
 
 function _log($msg,$msglevel) {
 	$loglevel=6;
 	// global $loglevel;
-	$my_logfile = "/var/www/goweb.de/log/nocps.log";
+	$my_logfile = "/tmp/nocps.log";
 	if($msglevel <= $loglevel) {
 		$_log = fopen($my_logfile,"a");
 		if ($_log === false) {
