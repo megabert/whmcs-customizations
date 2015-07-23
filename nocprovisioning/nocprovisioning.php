@@ -106,7 +106,7 @@ function nocprovisioning_getServerIP($serviceid)
 	return $d['dedicatedip'];
 }
 
-function nocprovisioning_getServerIPGoweb($serviceid)
+function nocprovisioning_getServerIPblub($serviceid)
 {
 	$q = mysql_query("SELECT dedicatedip, domainstatus FROM tblhosting WHERE id=".$serviceid);
 	$d = mysql_fetch_assoc($q);
@@ -209,7 +209,7 @@ function nocprovisioning_CreateAccount($params)
 	lg_info("Setting up $product. is_virtual: $is_virtual");
 
 	if       ( !$is_virtual ) { 
-        	 $n_serverrequest = "php /var/www/goweb.de/nocps-debug/getservers.php getserver ".$product;
+        	 $n_serverrequest = "php /var/www/myscript.php getserver ".$product;
         	 $newserverip_req = exec($n_serverrequest);
 
 	} elseif (  $is_virtual ) {
@@ -269,7 +269,7 @@ function nocprovisioning_CreateAccount($params)
 function nocprovisioning_TerminateAccount($params)
 {
 	global $nocps_password;
-        $ip  = nocprovisioning_getServerIPGoweb($params['serviceid']);
+        $ip  = nocprovisioning_getServerIPblub($params['serviceid']);
         $api = nocprovisioning_api($params);
         $mac = $api->getServerByIP($ip);
 
@@ -309,7 +309,7 @@ function nocprovisioning_SuspendAccount($params)
 	global $nocps_password;
         $q =  mysql_query("UPDATE tblhosting set domainstatus=\"Suspended\" WHERE id=\"".$params['serviceid']."\"");
         $query = mysql_result($q);
-        $ip  = nocprovisioning_getServerIPGoweb($params['serviceid']);
+        $ip  = nocprovisioning_getServerIPblub($params['serviceid']);
         $api = nocprovisioning_api($params);
         $mac = $api->getServerByIP($ip);
 
@@ -332,7 +332,7 @@ function nocprovisioning_UnsuspendAccount($params)
 	global $nocps_password;
         $q =  mysql_query("UPDATE tblhosting set domainstatus=\"Active\" WHERE id=\"".$params['serviceid']."\"");
         $query = mysql_result($q);
-        $ip  = nocprovisioning_getServerIPGoweb($params['serviceid']);
+        $ip  = nocprovisioning_getServerIPblub($params['serviceid']);
         $api = nocprovisioning_api($params);
         $mac = $api->getServerByIP($ip);
 
@@ -405,7 +405,7 @@ function nocprovisioning_ClientArea($params)
 	}
 
 	if ($ip && whmcs_host_is_virtual($params["packageid"]))
-	// if ($ip && $_SERVER["REMOTE_ADDR"]=="217.69.173.180" && whmcs_host_is_virtual($params["packageid"]))
+	// if ($ip && $_SERVER["REMOTE_ADDR"]=="1.2.3.4" && whmcs_host_is_virtual($params["packageid"]))
 	{
 		$code .= '<td> 
 			<form action="/startconsole.php" taget="_blank"  method="post">
